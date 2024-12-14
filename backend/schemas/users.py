@@ -1,5 +1,5 @@
 from pydantic import BaseModel, field_validator, Field, EmailStr
-from typing import Optional
+from typing import Optional, Dict
 from datetime import datetime
 import re
 
@@ -7,19 +7,17 @@ import re
 
 class UserBase(BaseModel):
     """User base schema"""
-    nickname: str
-    full_name: Optional[str]
+    username: str
     email: EmailStr
-    phone_number: Optional[str]
     role: str
-    is_verified: bool
+    is_verified: bool = Field(default=False)
 
 
 class UserCreate(UserBase):
     """Handles user creation"""
     password: str
 
-    @field_validator
+    @field_validator('password')
     def validate_password(cls, value):
         if len(value) < 8:
             raise ValueError("Password must be at least 8 characters long")
@@ -36,23 +34,30 @@ class UserCreate(UserBase):
 
 class UserUpdate(BaseModel):
     """Handles user update"""
-    nickname: Optional[str]
-    full_name: Optional[str]
+    username: Optional[str]
     email: Optional[EmailStr]
-    phone_number: Optional[str]
     password: Optional[str]
     role: Optional[str]
 
 
-class UserResponse(UserBase):
-    """Handles data shown on response"""
+class UserResponse(BaseModel):
     id: str
+    role: str
+    is_verified: bool
 
-    class Config:
-        from_attributes = True
+    model_config = {
+        "from_attributes": True
+    }
+
 
 
 class UserLogin(BaseModel):
     """Handles user login schema"""
-    email: EmailStr
+    username: str
     password: str
+
+
+class TokenResponse(BaseModel):
+    access_token: str
+    refresh_token: str
+    user: Dict[str, str]

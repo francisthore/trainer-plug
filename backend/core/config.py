@@ -14,6 +14,7 @@ class Setings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int
     REFRESH_TOKEN_EXPIRE_MINUTES: int
     TIMEOUT: int
+    MAIL_API_KEY: str
 
 
     class Config:

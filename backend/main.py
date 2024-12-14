@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from core.config import settings
 from db.models.base_model import Base
 from db.session import engine, get_db
-
+from api.routes import auth, users
 Base.metadata.create_all(bind=engine)
 
 # my constants
@@ -20,6 +20,8 @@ app.add_middleware(
   allow_methods=['*'],
   allow_headers=['*']
 )
+app.include_router(auth.router)
+app.include_router(users.router)
 
 @app.get('/')
 async def root():
