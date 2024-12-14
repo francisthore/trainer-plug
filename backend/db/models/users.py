@@ -9,9 +9,9 @@ class User(Base, BaseModel):
     __tablename__ = 'users'
 
     nickname = Column(String(50), nullable=False)
-    full_name = Column(String(250))
-    email = Column(String(), unique=True)
-    password_hash = Column(String(250))
+    full_name = Column(String(250), nullable=True)
+    email = Column(String(), unique=True, nullable=False)
+    password_hash = Column(String(250), nullable=False, unique=True)
     phone_number = Column(String, nullable=True)
-    role = Column(String(6), default='client')
+    role = Column(String(10), default='client')
     is_verified = Column(Boolean(), default=False)
