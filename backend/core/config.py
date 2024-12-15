@@ -15,7 +15,8 @@ class Setings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_MINUTES: int
     TIMEOUT: int
     MAIL_API_KEY: str
-
+    FROM_MAIL: str
+    
 
     class Config:
         env_file = '.env'
