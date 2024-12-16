@@ -1,7 +1,6 @@
-from sqlalchemy import Column, String, ForeignKey, Text
+from sqlalchemy import Column, String, ForeignKey, Text, Date
 from .base_model import Base, BaseModel
-from .users import User
-
+from core.config import settings
 
 class Profile(Base, BaseModel):
     """
@@ -9,6 +8,9 @@ class Profile(Base, BaseModel):
     """
     __tablename__ = 'profiles'
 
-    user_id = Column(String, ForeignKey('users.id'), index=True)
-    profile_picture = Column(String)
-    bio = Column(Text)
+    user_id = Column(String, ForeignKey('users.id'),unique=True, index=True)
+    full_name = Column(String, nullable=True)
+    phone_number = Column(String, nullable=True)
+    dob = Column(Date, nullable=True)
+    profile_picture = Column(String, default=settings.BASE_PROFILE_PIC)
+    bio = Column(Text, nullable=False)

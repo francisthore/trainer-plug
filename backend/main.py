@@ -1,9 +1,14 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from core.config import settings
 from db.models.base_model import Base
 from db.session import engine, get_db
-from api.routes import auth, users
+from api.routes import auth, users, trainers, profiles
+from core.error_middleware import ExceptionHandlingMiddleware
+from utils.logging_helper import logger
+
 Base.metadata.create_all(bind=engine)
 
 # my constants
@@ -20,8 +25,28 @@ app.add_middleware(
   allow_methods=['*'],
   allow_headers=['*']
 )
+app.add_middleware(ExceptionHandlingMiddleware)
 app.include_router(auth.router)
 app.include_router(users.router)
+app.include_router(trainers.router)
+app.include_router(profiles.router)
+
+@app.exception_handler(RequestValidationError)
+async def handle_validation_error(
+  request: Request,
+  exc: RequestValidationError
+  ):
+  """Handles validation error"""
+  logger.error(f"Validation error: {exc.errors()}")
+  return JSONResponse(
+    status_code=422,
+    content={
+      "success": False,
+      "message": "Invalid request params",
+      "errors": exc.errors()
+    }
+  )
+
 
 @app.get('/')
 async def root():

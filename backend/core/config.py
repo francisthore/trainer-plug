@@ -16,6 +16,8 @@ class Setings(BaseSettings):
     TIMEOUT: int
     MAIL_API_KEY: str
     FROM_MAIL: str
+    FROM_NAME: str
+    BASE_PROFILE_PIC: str
     
 
     class Config:

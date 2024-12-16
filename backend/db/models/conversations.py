@@ -7,4 +7,4 @@ class Conversation(Base, BaseModel):
     __tablename__ = 'conversations'
 
     client_id = Column(String, ForeignKey('client.id'))
-    trainer_id = Column(String, ForeignKey('trainer.id'))
+    user_id = Column(String, ForeignKey('trainer.id'))

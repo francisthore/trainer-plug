@@ -9,7 +9,7 @@ class TrainerVerification(Base, BaseModel):
     """
     __tablename__ = 'trainer_verifications'
 
-    trainer_id = Column(String, ForeignKey('trainers.id'), unique=True)
+    user_id = Column(String, ForeignKey('trainers.id'), unique=True)
     government_id_url = Column(String, default=None)
     certifications_url = Column(String, default=None)
     selfie_url = Column(String, default=None)
