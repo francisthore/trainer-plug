@@ -6,13 +6,18 @@ from schemas.profiles import ProfileCreate, ProfileResponse, ProfileUpdate
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from utils.auth import get_current_user
-from crud.db_hepers import create_object, get_object_by_id, update_object_by_id
+from crud.db_hepers import (
+    create_object,
+    get_object_by_id,
+    update_object_by_id,
+    delete_object_by_id)
+from utils.logging_helper import logger
 
 
 router = APIRouter(prefix='/api')
 
 
-@router.post('/profiles', response_model=ProfileResponse)
+@router.post('/profiles', response_model=ProfileResponse, status_code=201)
 async def create_new_profile(
     profile: ProfileCreate,
     db: Session = Depends(get_db)
@@ -36,7 +41,7 @@ async def create_new_profile(
         raise HTTPException(status_code=404, detail="not found")
 
 
-@router.get('/profiles', response_model=ProfileResponse)
+@router.get('/profiles/{id}', response_model=ProfileResponse)
 async def retrieve_profile(id: str, db: Session = Depends(get_db)):
     """retrieves a single profile"""
     if not id:
@@ -54,3 +59,17 @@ async def update_user_profile(
     updated_profile = update_object_by_id(Profile, id, profile_data, db)
 
     return ProfileResponse.model_validate(updated_profile)
+
+
+@router.delete('/profiles/{id}')
+async def delete_profile(id: str, db: Session = Depends(get_db)):
+    """Deletes a profile"""
+    if delete_object_by_id(Profile, id, db):
+        logger.info(f"Profle with id: {id} deleted successfully")
+        return JSONResponse(
+            status_code=200,
+            content={
+                "success": True,
+                "message": "Successfully deleted profile"
+            }
+            )
