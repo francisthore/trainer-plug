@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from core.config import settings
 from db.models.base_model import Base
 from db.session import engine, get_db
-from api.routes import auth, users, trainers, profiles
+from api.routes import auth, upload_router, users, trainers, profiles
 from core.error_middleware import ExceptionHandlingMiddleware
 from utils.logging_helper import logger
 
@@ -30,6 +30,7 @@ app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(trainers.router)
 app.include_router(profiles.router)
+app.include_router(upload_router.router)
 
 @app.exception_handler(RequestValidationError)
 async def handle_validation_error(
