@@ -5,7 +5,8 @@ from db.session import get_db
 from db.models.notifications import Notification
 from crud.db_hepers import(
     create_object,
-    get_object_by_id
+    get_object_by_id,
+    get_user_email
 )
 from schemas.notifications import NotificationCreate, NotificationResponse
 from typing import List
@@ -23,6 +24,7 @@ async def send_notification(
     new_notification = create_object(
         Notification, notification_data, db
     )
+
     return NotificationResponse.model_validate(new_notification)
 
 

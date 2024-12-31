@@ -2,6 +2,7 @@ from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 from db.session import get_db
 from typing import Dict, Any
+from db.models.users import User
 
 
 def get_object_by_id(cls, id: str, db: Session = Depends(get_db)) -> Dict:
@@ -111,3 +112,20 @@ def get_all_objects(
             detail="There are no objects found"
         )
     return objects
+
+
+def get_user_email(user_id: str, db: Session = Depends(get_db)) -> str:
+    """Retrieves user email"""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(
+            status_code=404,
+            detail="user not found"
+        )
+    user_email = user.to_dict().get('email')
+    if not user_email:
+        raise HTTPException(
+            status_code=404,
+            detail="No email found"
+        )
+    return user_email
