@@ -54,8 +54,10 @@ def decode_token(token: str, secret_key:  str) -> dict:
             token, secret_key, algorithms=[settings.ALGORITHM]
             )
         return payload
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token has expired")
     except JWTError:
-        return None
+        raise HTTPException(status_code=401, detail="Invalid token")
 
 
 def verify_access_token(token: str):
@@ -68,8 +70,12 @@ def verify_refresh_token(token: str):
     return decode_token(token, settings.REFRESH_SECRET_KEY)
 
 
-def get_current_user(token: str = Depends(oauth2_scheme)):
+def get_current_user(request: Request):
     """Dependency to get the current user from the token"""
+    token = request.cookies.get("access_token")
+    if not token:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
     payload = verify_access_token(token)
     if not payload:
         raise HTTPException(status_code=401, detail="Invalid or expired token")

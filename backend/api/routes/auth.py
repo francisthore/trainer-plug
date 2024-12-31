@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Response
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from utils.auth import create_access_token, create_refresh_token, verify_access_token
@@ -29,8 +30,12 @@ async def register_user(user: UserCreate, db: Session = Depends(get_db)):
     return UserResponse.model_validate(new_user)
 
 
-@router.post('/login', response_model=TokenResponse)
-async def login_user(user: UserLogin, db: Session = Depends(get_db)):
+@router.post('/login')
+async def login_user(
+    user: UserLogin,
+    response: Response,
+    db: Session = Depends(get_db)
+    ):
     """Logs a user in"""
     auth_user = authenticate_user(db, user.username, user.password)
     if not auth_user:
@@ -38,13 +43,44 @@ async def login_user(user: UserLogin, db: Session = Depends(get_db)):
 
     access_token = create_access_token({"sub": auth_user.username, "role": auth_user.role})
     refresh_token = create_refresh_token({"sub": auth_user.username})
+    
+    response.set_cookie(
+        key="access_token", value=access_token,
+        httponly=True, samesite="strict"
+    )
+
+    response.set_cookie(
+        key="refresh_token", value=refresh_token,
+        httponly=True, samesite="strict"
+    )
+
+
     logger.info(f"User {auth_user.username} authenticated successfully.")
 
     return {
-        "access_token": access_token,
-        "refresh_token": refresh_token,
-        "user": {"username": auth_user.username, "role": auth_user.role}
-    }
+            "success": True,
+            "username": auth_user.username,
+            "role": auth_user.role
+        }
+
+
+@router.post('/logout')
+async def logout_user(response: Response):
+    """Logs a user out"""
+    response.delete_cookie(
+        key="access_token", httponly=True, samesite="strict"
+    )
+    response.delete_cookie(
+        key="refresh_token", httponly=True, samesite="strict"
+    )
+
+    return JSONResponse(
+        status_code=200,
+        content={
+            "success": True,
+            "message": "Logged out successfully"
+        }
+    )
 
 
 @router.get('/verify-email')
