@@ -8,7 +8,7 @@ class Profile(Base, BaseModel):
     """
     __tablename__ = 'profiles'
 
-    user_id = Column(String, ForeignKey('users.id'),unique=True, index=True)
+    user_id = Column(String, ForeignKey('users.id'), unique=True, index=True)
     full_name = Column(String, nullable=True)
     phone_number = Column(String, nullable=True)
     dob = Column(Date, nullable=True)

@@ -9,8 +9,6 @@ class UserBase(BaseModel):
     """User base schema"""
     username: str
     email: EmailStr
-    role: str
-    is_verified: bool = Field(default=False)
 
 
 class UserCreate(UserBase):

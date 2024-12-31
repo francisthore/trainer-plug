@@ -7,50 +7,61 @@ from schemas.trainers import TrainerCreate, TrainerResponse, TrainerUpdate, Trai
 from typing import List
 from utils.auth import get_current_user
 from utils.logging_helper import logger
-from crud.trainers import create_new_trainer, update_trainer
-from crud.db_hepers import get_object_by_id, delete_object_by_id
+from crud.db_hepers import(
+    delete_object_by_user_id,
+    get_object_by_user_id,
+    create_object, update_object_by_user_id, get_all_objects
+    )
+from typing import List
 
 
+router = APIRouter(prefix='/api/trainers')
 
-router = APIRouter(prefix='/api')
-
-@router.post('/trainers', response_model=TrainerResponse, status_code=201)
+@router.post('/', response_model=TrainerResponse, status_code=201)
 async def create_trainer(
     trainer: TrainerCreate,
-    db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)
+    db: Session = Depends(get_db)
     ):
     """Creates a new trainer"""
-    trainer = create_new_trainer(db, trainer)
+    create_data = trainer.model_dump()
+    trainer = create_object(Trainer, create_data, db)
     logger.info(f"New trainer profile created for User: {trainer.user_id}")
     return TrainerResponse.model_validate(trainer)
 
 
-@router.get('/trainers', response_model=TrainerResponse)
+@router.get('/', response_model=List[TrainerResponse])
+async def get_trainers(db: Session = Depends(get_db)):
+    """Retrieves all trainers"""
+    trainers = get_all_objects(Trainer, db)
+    return [TrainerResponse.model_validate(trainer) for trainer in trainers]
+
+@router.get('/{user_id}', response_model=TrainerResponse)
 async def get_trainer(
-    trainer_id: str, db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    user_id: str, db: Session = Depends(get_db)
     ):
     """Retrieves a trainer"""
-    trainer = get_object_by_id(Trainer, trainer_id, db)
+    trainer = get_object_by_user_id(Trainer, user_id, db)
     return TrainerResponse.model_validate(trainer)
 
 
-@router.patch('/trainers', response_model=TrainerResponse)
+@router.patch('/{user_id}', response_model=TrainerResponse)
 async def update_trainer_route(
-    trainer_id: str, trainer: TrainerUpdate, db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    user_id: str, data: TrainerUpdate, db: Session = Depends(get_db)
     ):
     """Updates a trainer profile"""
-    updated_trainer = update_trainer(trainer_id, trainer, db)
+    update_data = data.model_dump(exclude_unset=True)
+    updated_trainer = update_object_by_user_id(
+        Trainer, user_id, update_data, db
+    )
     return TrainerResponse.model_validate(updated_trainer)
 
 
-@router.delete('/trainers')
+@router.delete('/{user_id}')
 async def delete_trainer(
-    trainer: TrainerDelete, db: Session = Depends(get_db)):
+    user_id: str, db: Session = Depends(get_db)):
     """Deletes a trainer"""
-    if delete_object_by_id(Trainer, trainer.id, db):
-        logger.info(f"Trainer with id: {trainer.id} deleted successfully")
+    if delete_object_by_user_id(Trainer, user_id, db):
+        logger.info(f"Trainer with id: {user_id} deleted successfully")
         return JSONResponse(
             status_code=200,
             content={

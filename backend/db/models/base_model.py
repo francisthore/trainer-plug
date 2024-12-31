@@ -29,3 +29,11 @@ class BaseModel:
             default=datetime.now(),
             onupdate=datetime.now()
         )
+    
+
+    def to_dict(self):
+        """Converts SQLAlchemy model instance into a dictionary."""
+        return {
+            column.name: getattr(self, column.name)
+            for column in self.__table__.columns
+        }

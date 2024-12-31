@@ -9,4 +9,4 @@ class Client(Base, BaseModel):
     __tablename__ = 'clients'
 
     user_id = Column(String, ForeignKey('users.id'), unique=True)
-    linked_user_id = Column(String, ForeignKey('trainers.id'))
+    linked_trainer_id = Column(String, ForeignKey('trainers.user_id'), nullable=True)

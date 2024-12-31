@@ -11,8 +11,7 @@ router = APIRouter(prefix='/api')
 
 
 @router.get('/users', response_model=List[UserResponse])
-async def get_users(db: Session = Depends(get_db),
-                    current_user: dict = Depends(get_current_user)):
+async def get_users(db: Session = Depends(get_db)):
     """Gets all users in db"""
     users = db.query(User).all()
     return [UserResponse.model_validate(user) for user in users]

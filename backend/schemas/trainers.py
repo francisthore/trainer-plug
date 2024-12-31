@@ -8,7 +8,6 @@ class TrainerBase(BaseModel):
     specialization: str
     years_of_experience: int
     hourly_rate: float
-    verification_status: str = Field(default="Pending")
 
 
 class TrainerCreate(TrainerBase):
@@ -18,7 +17,7 @@ class TrainerCreate(TrainerBase):
 
 class TrainerResponse(BaseModel):
     """Response schema for a trainer"""
-    id: str
+    user_id: str
     specialization: str
     years_of_experience: int
     hourly_rate: float
@@ -34,7 +33,6 @@ class TrainerUpdate(BaseModel):
     specialization: Optional[str] = None
     years_of_experience: Optional[int] = None
     hourly_rate: Optional[float] = None
-    verification_status: Optional[str] = None
 
 
 class TrainerDelete(BaseModel):
