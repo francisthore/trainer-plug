@@ -1,9 +1,8 @@
+import Hero from "../components/Hero";
+
 const Home = () => {
   return (
-    <div>
-      <h1>Welcome to Trainer Plug</h1>
-      <p>Your ultimate platform for finding personal trainers!</p>
-    </div>
+    <Hero />
   );
 };
 
