@@ -8,6 +8,7 @@ class Setings(BaseSettings):
 
     DATABASE_URL: str
     FRONTEND_URL: str
+    FRONTEND_URL2: str
     SECRET_KEY: str
     REFRESH_SECRET_KEY: str
     ALGORITHM: str

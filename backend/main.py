@@ -19,7 +19,7 @@ Base.metadata.create_all(bind=engine)
 # my constants
 DATABASE_URL = settings.DATABASE_URL
 FRONTEND_URL = settings.FRONTEND_URL
-origins = [FRONTEND_URL]
+origins = [FRONTEND_URL, settings.FRONTEND_URL2]
 # constants end
 
 app = FastAPI(title="Trainer Plug API")

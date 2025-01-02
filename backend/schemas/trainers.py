@@ -33,8 +33,14 @@ class TrainerUpdate(BaseModel):
     specialization: Optional[str] = None
     years_of_experience: Optional[int] = None
     hourly_rate: Optional[float] = None
+    verification_status: Optional[str] = None
 
 
-class TrainerDelete(BaseModel):
-    """delete trainer"""
-    id: str
+
+class TrainerFullResponse(BaseModel):
+    """Trainer full profile response"""
+    user_id: str
+    full_name: str
+    bio: str
+    profile_picture: str
+    hourly_rate: float
