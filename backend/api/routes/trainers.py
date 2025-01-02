@@ -21,7 +21,7 @@ from crud.trainers import get_full_trainer_profiles
 from typing import List
 
 
-router = APIRouter(prefix='/api/trainers')
+router = APIRouter(prefix='/api/trainers', redirect_slashes=False)
 
 @router.post('/', response_model=TrainerResponse, status_code=201)
 async def create_trainer(

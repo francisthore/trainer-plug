@@ -2,11 +2,15 @@
 import { SolidButton } from "./Button";
 
 
+
 const MainTrainerCard = ( { trainer } ) => {
+    const generateProfilePicUrl = (filePath) => `${import.meta.env.VITE_S3_BASE_URL}/${filePath}`;
+
+
     return (
         <div className="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-96">
             <div className="relative h-56 m-2.5 overflow-hidden text-white rounded-md">
-                <img src={trainer.profile_picture} alt="card-image" />
+            <img src={generateProfilePicUrl(trainer.profile_picture)} alt={`${trainer.full_name}'s profile`} />
             </div>
             <div className="p-4">
                 <div className="flex items-center mb-2">

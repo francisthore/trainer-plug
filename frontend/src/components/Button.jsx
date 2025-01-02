@@ -1,4 +1,6 @@
 /* eslint-disable react/prop-types */
+import { Button } from "@material-tailwind/react";
+
 export const SolidButton = ({ children, onClick }) => {
     return (
         <button
@@ -31,3 +33,13 @@ export const OutlineButton = ({ children, onClick }) => {
         </button>
     );
 };
+
+
+export function ButtonLoading({children}) {
+    return (
+      <div className="flex items-center gap-4">
+        <Button loading={true}>{children}</Button>
+      </div>
+    );
+  }
+   
