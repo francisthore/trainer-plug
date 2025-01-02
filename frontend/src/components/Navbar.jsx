@@ -6,7 +6,7 @@ const Navbar = () => {
     const logo = Assets["logo_url"];
 
     return (
-        <div className="flex justify-between items-center px-1 py-3 gap-1 bg-gray-50">
+        <div className="flex justify-between items-center px-1 py-3 gap-1 bg-gray-50 overflow-hidden">
             <img src={ logo }
             alt="trainerplug logo"
             className="logo" 
