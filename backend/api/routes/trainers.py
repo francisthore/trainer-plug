@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from db.session import get_db
 from db.models.trainers import Trainer
+from db.models.users import User
 from schemas.trainers import (
     TrainerCreate,
     TrainerResponse,
@@ -10,7 +11,7 @@ from schemas.trainers import (
     TrainerFullResponse
     )
 from typing import List
-from utils.auth import get_current_user
+from utils.auth import get_current_user, oauth2_scheme
 from utils.logging_helper import logger
 from crud.db_hepers import(
     delete_object_by_user_id,
@@ -19,6 +20,7 @@ from crud.db_hepers import(
     )
 from crud.trainers import get_full_trainer_profiles
 from typing import List
+
 
 
 router = APIRouter(prefix='/api/trainers', redirect_slashes=False)
@@ -35,8 +37,11 @@ async def create_trainer(
     return TrainerResponse.model_validate(trainer)
 
 
+
 @router.get('/', response_model=List[TrainerFullResponse])
-async def get_trainers(db: Session = Depends(get_db)):
+async def get_trainers(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)):
     """Retrieves all trainers"""
     trainers = get_full_trainer_profiles(db)
     return [

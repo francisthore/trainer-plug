@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../features/auth/Login";
-import Register from "../features/auth/Register";
+import RegisterTrainer from "../features/auth/RegisterTrainer";
 import NotFound from "../pages/NotFound";
 import Dashboard from "../pages/Dashboard";
 
@@ -10,7 +10,7 @@ const AppRoutes = () => {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register-trainer" element={<RegisterTrainer />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
