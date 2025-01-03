@@ -31,7 +31,7 @@ const MainTrainerCard = ( { trainer, openModal } ) => {
                 </div>
 
                 <p className="text-slate-600 leading-normal font-light">
-                    {trainer.bio}
+                    {`${trainer.bio.slice(0, 120)}...`}
                 </p>
             </div>
 

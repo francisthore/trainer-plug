@@ -11,7 +11,7 @@ from crud.db_hepers import (
     create_object,
     get_object_by_id,
     get_object_by_user_id,
-    update_object_by_id,
+    update_object_by_user_id,
     delete_object_by_id)
 from utils.logging_helper import logger
 import requests
@@ -59,7 +59,7 @@ async def update_user_profile(
     ):
     """Updates a user profile"""
     profile_data = profile.model_dump(exclude_unset=True)
-    updated_profile = update_object_by_id(Profile, id, profile_data, db)
+    updated_profile = update_object_by_user_id(Profile, id, profile_data, db)
 
     return ProfileResponse.model_validate(updated_profile)
 
