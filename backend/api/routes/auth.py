@@ -41,7 +41,7 @@ async def login_user(
     if not auth_user:
         raise HTTPException(status_code=401, detail="Invalid username or password")
 
-    access_token = create_access_token({"sub": auth_user.username, "role": auth_user.role})
+    access_token = create_access_token({"sub": auth_user.id, "role": auth_user.role})
     refresh_token = create_refresh_token({"sub": auth_user.username})
     
     response.set_cookie(

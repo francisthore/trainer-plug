@@ -22,7 +22,7 @@ export const registerUser = async (username, email, password) => {
 export const verifyEmail = async (token) => {
     try {
         const response = await API.get(`/auth/verify-email?token=${token}`);
-        window.location.href = '/login';
+        navigate('/login');
     } catch (error) {
         throw error.response ? error.response.data : new Error("Failed to verifiy email. Try again");
     }

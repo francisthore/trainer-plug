@@ -8,24 +8,25 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState({
         isAuthenticated: false,
-        userId: null,
-        role: null
+        currentUserId: null,
+        currentUserRole: null
     });
 
     useEffect(() => {
         const checkAuth = async () => {
             try {
                 const response = await API.get('/auth/me');
+                const user = response.data['user'];
                 setAuth({
                     isAuthenticated: true,
-                    userId: response.data.username,
-                    role: response.data.user.role
+                    currentUserId: user.sub,
+                    currentUserRole: user.role
                 });
             } catch (error) {
                 setAuth({
                     isAuthenticated: false,
-                    userId: null,
-                    role: null
+                    currentUserId: null,
+                    currentUserRole: null
                 });
             }
 
