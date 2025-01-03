@@ -44,3 +44,9 @@ class TrainerFullResponse(BaseModel):
     bio: str
     profile_picture: str
     hourly_rate: float
+    specialization: str
+    years_of_experience: int
+
+    model_config = {
+        "from_attributes": True
+    }

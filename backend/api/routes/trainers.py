@@ -18,7 +18,7 @@ from crud.db_hepers import(
     get_object_by_user_id,
     create_object, update_object_by_user_id, get_all_objects
     )
-from crud.trainers import get_full_trainer_profiles
+from crud.trainers import get_full_trainer_profiles, get_full_trainer_profile
 from typing import List
 
 
@@ -44,23 +44,17 @@ async def get_trainers(
     """Retrieves all trainers"""
     trainers = get_full_trainer_profiles(db)
     return [
-        TrainerFullResponse(
-            user_id=trainer.user_id,
-            full_name=trainer.full_name,
-            bio=trainer.bio,
-            profile_picture=trainer.profile_picture,
-            hourly_rate=trainer.hourly_rate
-        )
+        TrainerFullResponse.model_validate(trainer)
         for trainer in trainers
     ]
 
-@router.get('/{user_id}', response_model=TrainerResponse)
+@router.get('/{user_id}', response_model=TrainerFullResponse)
 async def get_trainer(
     user_id: str, db: Session = Depends(get_db)
     ):
     """Retrieves a trainer"""
-    trainer = get_object_by_user_id(Trainer, user_id, db)
-    return TrainerResponse.model_validate(trainer)
+    trainer = get_full_trainer_profile(db, user_id)
+    return TrainerFullResponse.model_validate(trainer)
 
 
 @router.patch('/{user_id}', response_model=TrainerResponse)
