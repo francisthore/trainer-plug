@@ -5,7 +5,7 @@ const TrainerProfile = ({ userId, onClose }) => {
     const [trainer, setTrainer] = useState(null);
 
     useEffect(() => {
-        const fetchData = async (userId) => {
+        const fetchData = async () => {
             try {
                 const data = await fetchTrainerProfile(userId);
                 setTrainer(data);

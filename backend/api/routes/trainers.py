@@ -40,8 +40,7 @@ async def create_trainer(
 
 @router.get('/', response_model=List[TrainerFullResponse])
 async def get_trainers(
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)):
+    db: Session = Depends(get_db)):
     """Retrieves all trainers"""
     trainers = get_full_trainer_profiles(db)
     return [
