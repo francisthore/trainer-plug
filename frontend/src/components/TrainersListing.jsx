@@ -1,4 +1,4 @@
-import MainTrainerCard from "./TrainerCards";
+import { MainTrainerCard } from "./TrainerCards";
 import { useState, useEffect } from "react";
 import { fetchTrainerProfiles } from "../api/trainers";
 import { ButtonLoading } from "./Button";

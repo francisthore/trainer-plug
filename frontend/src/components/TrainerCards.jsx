@@ -46,7 +46,7 @@ export const MainTrainerCard = ({ trainer, openModal }) => {
     );
 };
 
-export const SecondaryTrainerCard = ({ trainer }) => {
+export  const SecondaryTrainerCard = ({ trainer }) => {
     return (
         <div className="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg my-6 w-96">
             <div className="m-2.5 overflow-hidden rounded-md h-80 flex justify-center items-center">
@@ -71,4 +71,4 @@ export const SecondaryTrainerCard = ({ trainer }) => {
             </div>
         </div>
     );
-}
+};

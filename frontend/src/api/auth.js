@@ -1,4 +1,5 @@
 import API from "./axios";
+import { useNavigate } from "react-router-dom";
 
 export const registerUser = async (username, email, password) => {
     const userData = {
@@ -6,10 +7,11 @@ export const registerUser = async (username, email, password) => {
         email,
         password
     };
+    const navigate = useNavigate();
 
     try {
         const response = await API.post('/auth/register', userData);
-        window.location.href = '/verify-email';     
+        navigate('/verify-email');
     } catch (error) {
         throw error.response ? error.response.data : new Error("Failed to register user. Try again");
     }

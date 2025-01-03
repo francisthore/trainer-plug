@@ -1,12 +1,17 @@
 import Assets from "../assets/Assets";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {SolidButton, OutlineButton} from "./Button";
 import { useAuth } from "../context/AuthContext";
 import API from "../api/axios";
+import Login from "../features/auth/Login";
 
 
 const Navbar = () => {
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
     const {auth, setAuth} = useAuth();
     const logo = Assets["logo_url"];
+    const navigate = useNavigate();
 
     const handleLogout = async () => {
         try {
@@ -27,7 +32,7 @@ const Navbar = () => {
             <img src={ logo }
             alt="trainerplug logo"
             className="logo" 
-            onClick={() => {window.location.href = "/"}}
+            onClick={() => {navigate('/')}}
             ></img>
             <div className="flex gap-2">
                 
@@ -39,16 +44,18 @@ const Navbar = () => {
                     </>
                 ) : (
                     <>
-                    <SolidButton onClick={() => {window.location.href = '/trainer/register'}}>
+                    <SolidButton onClick={() => navigate('/register')}>
                     Become a Trainer
                 </SolidButton>
-                <OutlineButton onClick={() => {window.location.href = '/login'}}>
+                <OutlineButton onClick={() => setIsLoginOpen(true)}>
                     Login
                 </OutlineButton>
                     </>
                 )}
+
                 
             </div>
+            <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
         </nav>
     );
 };

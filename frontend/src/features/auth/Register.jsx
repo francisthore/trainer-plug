@@ -1,13 +1,14 @@
 import { registerUser } from "../../api/auth";
 import { useState } from "react";
 import Assets from "../../assets/Assets";
-import { SolidButton } from "../../components/Button";
+import Login from "./Login";
 
-const RegisterTrainer = () => {
+const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoginOpen, setIsLoginOpen] = useState(false)
 
 
 
@@ -46,7 +47,8 @@ const RegisterTrainer = () => {
               <input type="text" className="w-full bg-transparent placeholder:text-slate-400 
         text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition 
         duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 
-        shadow-sm focus:shadow" 
+        shadow-sm focus:shadow"
+        required
         placeholder="username"
         value={username}
         onChange={(e) => {setUsername(e.target.value)}}/>
@@ -59,6 +61,7 @@ const RegisterTrainer = () => {
         text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition
         duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300
         shadow-sm focus:shadow"
+        required
         placeholder="john@doe.com"
         value={email}
         onChange={(e) => {setEmail(e.target.value)}} />
@@ -71,26 +74,28 @@ const RegisterTrainer = () => {
         text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition
         duration-300 ease focus:outline-none focus:border-slate-400
         hover:border-slate-300 shadow-sm focus:shadow"
+        required
         placeholder="password"
         value={password}
         onChange={(e) => {setPassword(e.target.value)}} />
             </div>
           </div>
           <div className="mt-4 flex justify-center">
-            <button type="submit" className="py-2 px-4 bg-blue-500 text-white rounded">Sign Up</button>
+            <button type="submit" className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-700">Sign Up</button>
           </div>
 
           <p className="flex justify-center mt-6 text-sm text-slate-600">
             Already have an account?
-            <a role="button" onClick={() => { window.location.href = "/login" }} className="ml-1 text-sm font-semibold text-slate-700 underline">
+            <a role="button" onClick={() => { setIsLoginOpen(true) }} className="ml-1 text-sm font-semibold text-slate-700 underline">
               Login
             </a>
           </p>
         </form>
       </div>
+      <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </div>
   );
 };
 
-export default RegisterTrainer;
+export default Register;
 
