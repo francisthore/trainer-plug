@@ -74,13 +74,12 @@ async def logout_user(response: Response):
         key="refresh_token", httponly=True, samesite="strict"
     )
 
-    return JSONResponse(
-        status_code=200,
-        content={
-            "success": True,
-            "message": "Logged out successfully"
-        }
-    )
+    return {
+        "status_code": 2000,
+        "success": True,
+        "message": "Logged out successfully"
+    }
+        
 
 
 @router.get('/verify-email')
@@ -131,3 +130,8 @@ async def resend_verification(
             )
     logger.info(f"Verification email resent to {user.email}")
     return {"msg": "Verification email resent successfully."}
+
+
+@router.get("/me")
+async def get_authenticated_user(current_user: dict = Depends(get_current_user)):
+    return {"user": current_user}

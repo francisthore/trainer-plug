@@ -92,4 +92,4 @@ def generate_verification_link(username: str) -> str:
         str: verification link
     """
     token = create_access_token({'sub': username, 'exp': 3600})
-    return f"{settings.FRONTEND_URL}/api/auth/verify-email?token={token}"
+    return f"{settings.FRONTEND_URL}/verify-email?token={token}"

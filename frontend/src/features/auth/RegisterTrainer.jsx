@@ -1,9 +1,93 @@
-
+import { registerUser } from "../../api/auth";
+import { useState } from "react";
+import Assets from "../../assets/Assets";
+import { SolidButton } from "../../components/Button";
 
 const RegisterTrainer = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+
+
+  const handleRegistration = async (e) => {
+    e.preventDefault();
+
+    try {
+      setError("");
+
+      await registerUser(username, email, password);
+      setUsername("");
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      setError(error.message || "Failed to register");
+    }
+  };
+
+
   return (
-    <div>
-      
+    <div className="bg-gray-50 flex items-center justify-center p-10">
+      <div className="relative flex flex-col rounded-xl
+    bg-gradient-to-r from-slate-50 to-gray-100 
+    shadow-2xl  md:p-5 p-2 text-gray-900">
+        <img src={Assets["logo_url"]} className="object-cover h-28 w-100"></img>
+        <h4 className="block text-2xl  font-bold my-2 text-center">
+          Create Your Account
+        </h4>
+        {error && <p className="text-red-500 mb-2">{error}</p>}
+        <form className="mt-2 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={handleRegistration}>
+          <div className="mb-1 flex flex-col gap-6">
+            <div className="w-full max-w-sm min-w-[200px]">
+              <label className="block mb-2 text-sm text-slate-600">
+                Username
+              </label>
+              <input type="text" className="w-full bg-transparent placeholder:text-slate-400 
+        text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition 
+        duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 
+        shadow-sm focus:shadow" 
+        placeholder="username"
+        value={username}
+        onChange={(e) => {setUsername(e.target.value)}}/>
+            </div>
+            <div className="w-full max-w-sm min-w-[200px]">
+              <label className="block mb-2 text-sm text-slate-600">
+                Email
+              </label>
+              <input type="email" className="w-full bg-transparent placeholder:text-slate-400
+        text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition
+        duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300
+        shadow-sm focus:shadow"
+        placeholder="john@doe.com"
+        value={email}
+        onChange={(e) => {setEmail(e.target.value)}} />
+            </div>
+            <div className="w-full max-w-sm min-w-[200px]">
+              <label className="block mb-2 text-sm text-slate-600">
+                Password
+              </label>
+              <input type="password" className="w-full bg-transparent placeholder:text-slate-400
+        text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition
+        duration-300 ease focus:outline-none focus:border-slate-400
+        hover:border-slate-300 shadow-sm focus:shadow"
+        placeholder="password"
+        value={password}
+        onChange={(e) => {setPassword(e.target.value)}} />
+            </div>
+          </div>
+          <div className="mt-4 flex justify-center">
+            <button type="submit" className="py-2 px-4 bg-blue-500 text-white rounded">Sign Up</button>
+          </div>
+
+          <p className="flex justify-center mt-6 text-sm text-slate-600">
+            Already have an account?
+            <a role="button" onClick={() => { window.location.href = "/login" }} className="ml-1 text-sm font-semibold text-slate-700 underline">
+              Login
+            </a>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
