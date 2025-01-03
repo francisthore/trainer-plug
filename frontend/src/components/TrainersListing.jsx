@@ -2,11 +2,24 @@ import MainTrainerCard from "./TrainerCards";
 import { useState, useEffect } from "react";
 import { fetchTrainerProfiles } from "../api/trainers";
 import { ButtonLoading } from "./Button";
+import TrainerProfile from "./TrainerProfile";
 
 
 const TrainersListing = () => {
     const [trainers, setTrainers] = useState([]);
+    const [selectedTrainerId, setSelectedTrainerId] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    const openModal = (userId) => {
+        setSelectedTrainerId(userId);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setSelectedTrainerId(null);
+        setIsModalOpen(false);
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,6 +34,7 @@ const TrainersListing = () => {
         }
         fetchData()
     }, []);
+
 
     return (
         <section className="md:px-10 px-4 md:py-10 py-4">
@@ -37,12 +51,18 @@ const TrainersListing = () => {
                     </div>
                 ) : trainers.length > 0 ? (
                     trainers.map((trainer) => (
-                        <MainTrainerCard key={trainer.id} trainer={trainer} />
+                        <MainTrainerCard
+                            key={trainer.id}
+                            trainer={trainer}
+                            openModal={openModal} />
                     ))
                 ) : (
                     <p className="text-gray-500">No trainers found.</p>
                 )}
             </div>
+            {isModalOpen && (
+                <TrainerProfile userId={selectedTrainerId} onClose={closeModal} />
+            )}
         </section>
     );
 };

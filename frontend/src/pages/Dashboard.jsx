@@ -1,11 +1,12 @@
 import ClientDashboard from "../features/dashboard/ClientDashboard";
+import WelcomeDashboard from "../features/dashboard/WelcomeDashboard";
 
 const Dashboard = () => {
     return (
         <div>
-        <ClientDashboard />
+        <WelcomeDashboard />
         </div>
     );
 }
 
-export default Dashboard
+export default Dashboard;

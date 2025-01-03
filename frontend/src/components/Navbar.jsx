@@ -33,7 +33,6 @@ const Navbar = () => {
                 
                 {auth.isAuthenticated ? (
                     <>
-                    <span>Hi bro</span>
                     <OutlineButton onClick={handleLogout}>
                         Logout
                     </OutlineButton>

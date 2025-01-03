@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { SolidButton } from "./Button";
+import TrainerProfile from "./TrainerProfile";
 
 
 
-const MainTrainerCard = ( { trainer } ) => {
+const MainTrainerCard = ( { trainer, openModal } ) => {
     const generateProfilePicUrl = (filePath) => `${import.meta.env.VITE_S3_BASE_URL}/${filePath}`;
 
 
@@ -41,7 +42,7 @@ const MainTrainerCard = ( { trainer } ) => {
             </div>
 
             <div className="px-4 pb-4 pt-0 mt-2">
-                <SolidButton onClick={() => {alert("View trainer btn")}}>
+                <SolidButton onClick={() => openModal(trainer.user_id)}>
                     View Trainer Profile
                 </SolidButton>
             </div>

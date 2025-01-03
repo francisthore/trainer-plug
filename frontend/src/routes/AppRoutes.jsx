@@ -5,6 +5,7 @@ import RegisterTrainer from "../features/auth/RegisterTrainer";
 import NotFound from "../pages/NotFound";
 import Dashboard from "../pages/Dashboard";
 import VerifyEmailAlert from "../features/auth/VerifyEmail";
+import BrowseTrainers from "../pages/BrowseTrainers";
 
 const AppRoutes = () => {
     return (
@@ -14,6 +15,7 @@ const AppRoutes = () => {
             <Route path="/trainer/register" element={<RegisterTrainer />} />
             <Route path="/verify-email" element={<VerifyEmailAlert />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/browse-trainers" element={<BrowseTrainers />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     );
