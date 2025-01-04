@@ -59,7 +59,7 @@ async def login_user(
 
     return {
             "success": True,
-            "username": auth_user.username,
+            "id": auth_user.id,
             "role": auth_user.role
         }
 

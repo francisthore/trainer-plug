@@ -7,12 +7,10 @@ import Navbar from "./components/Navbar";
 import { AuthProvider } from "./context/AuthContext";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
     <AuthProvider>
     <Router>
       <Navbar />
       <App />
     </Router>
     </AuthProvider>
-  </StrictMode>
 );

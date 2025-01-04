@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { verifyEmail } from "../../api/auth";
+import Login from "./Login";
 
 
 const VerifyEmailAlert = () => {
     const location = useLocation();
-    const navigate =useNavigate();
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
 
     useEffect(() =>{
         const params = new URLSearchParams(location.search);
@@ -15,8 +16,9 @@ const VerifyEmailAlert = () => {
             const verify = async () => {
                 try {
                     await verifyEmail(token);
+                    setIsLoginOpen(true);
                 } catch (error) {
-                    alert(error.message || "Failed to verify email");
+                    console.error(error.message || "Failed to verify email");
                 }
             };
 
@@ -42,6 +44,7 @@ const VerifyEmailAlert = () => {
                     </p>
                 </div>
             </div>
+            <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
         </div>
     );
 };
