@@ -4,6 +4,7 @@ import { fetchTrainerProfile } from "../api/trainers";
 import { SolidButton } from "./Button";
 import Login from "../features/auth/Login";
 import { useAuth } from "../context/AuthContext";
+import SimpleMessage from "../features/messaging/SimpleMessage";
 
 const generateProfilePicUrl = (filePath) => `${import.meta.env.VITE_S3_BASE_URL}/${filePath}`;
 
@@ -11,13 +12,14 @@ const generateProfilePicUrl = (filePath) => `${import.meta.env.VITE_S3_BASE_URL}
 const TrainerProfile = ({ userId, onClose }) => {
     const [trainer, setTrainer] = useState(null);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
+    const [isMessageOpen, setIsMessageOpen] = useState(false);
     const { auth } = useAuth();
 
     const handleMessageClick = () => {
         if (!auth.isAuthenticated) {
             setIsLoginOpen(true);
         } else {
-            alert(auth.currentUserId);
+            setIsMessageOpen(true);
         }
     }
 
@@ -136,6 +138,7 @@ const TrainerProfile = ({ userId, onClose }) => {
 
             </div>
             <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+            <SimpleMessage isOpen={isMessageOpen} onClose={() => setIsMessageOpen(false)} userId={trainer.user_id} />
         </div>
     );
 }
